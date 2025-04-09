@@ -1,0 +1,127 @@
+<div class="container p-5 bg-white rounded shadow">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-4 row g-3">
+      <div class="col-12 col-md-4 mt-4">
+        <div class="mb-3">
+            <label class="form-label fw-bold">+ Add Your Logo</label>
+            <input type="file" class="form-control mb-2" (change)="onLogoSelected($event)" accept="image/*">
+            <div *ngIf="logoDataUrl" class="mt-2">
+              <img [src]="logoDataUrl" alt="Logo Preview" style="max-height: 80px;">
+            </div>
+          </div>
+          
+        <input type="text" class="form-control mb-2" placeholder="Who is this from?" [(ngModel)]="from">
+        <input type="text" class="form-control mb-2" placeholder="Bill To" [(ngModel)]="billTo">
+        <input type="text" class="form-control" placeholder="Ship To (optional)" [(ngModel)]="shipTo">
+      </div>
+  
+      <div class="text-end col-12 col-md-4">
+        <h3 class="fw-bold">INVOICE</h3>
+        <div class="mb-2">
+          <!-- <label class="form-label">Invoice Number</label> -->
+          <input type="text" class="form-control" placeholder="Invoice Number" [(ngModel)]="invoiceNumber">
+        </div>
+        <div class="mb-2">
+          <!-- <label class="form-label">Date</label> -->
+          <input  class="form-control" type="text" onfocus="this.type='date'" onblur="if(this.value===''){this.type='text'}" placeholder="date" [(ngModel)]="date">
+        </div>
+        <div class="mb-2">
+          <!-- <label class="form-label">Payment Terms</label> -->
+          <input type="text" class="form-control" placeholder="Payment Terms" [(ngModel)]="paymentTerms">
+        </div>
+        <div class="mb-2">
+          <!-- <label class="form-label">Due Date</label> -->
+          <input type="text" onfocus="this.type='date'" onblur="if(this.value===''){this.type='text'}" placeholder=" Due date" class="form-control" title="Due Date" [(ngModel)]="dueDate">
+        </div>
+        <div>
+          <!-- <label class="form-label">PO Number</label> -->
+          <input type="text" class="form-control" placeholder="PO Number" [(ngModel)]="poNumber">
+        </div>
+      </div>
+    </div>
+  
+    <!-- Line Items -->
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items; let i = index">
+          <td><input class="form-control" [(ngModel)]="item.description" placeholder="Description"></td>
+          <td><input type="number" class="form-control" [(ngModel)]="item.quantity" (input)="calculateTotal()"></td>
+          <td><input type="number" class="form-control" [(ngModel)]="item.rate" (input)="calculateTotal()"></td>
+          <td class="align-middle">{{ item.quantity * item.rate | currency }}</td>
+          <td><button class="btn btn-sm btn-danger" (click)="removeItem(i)">×</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-outline-primary mb-4" (click)="addItem()">+ Line Item</button>
+  
+    <!-- Notes and Totals -->
+    <div class="row">
+      <div class="col-md-8 m-4">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Notes</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="notes" placeholder="Any extra notes..."></textarea>
+        </div>
+        <div>
+          <label class="form-label fw-bold">Terms</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="terms" placeholder="Payment terms, late fees..."></textarea>
+        </div>
+      </div>
+      <div class="col-md-3 mt-5 ms-4">
+        <div class="mb-2 d-flex justify-content-between">
+          <span class="fw-bold">Subtotal:</span>
+          <span>{{ subtotal | currency }}</span>
+        </div>
+  
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+          <span class="fw-bold me-1">Tax:</span>
+          <input type="number" class="form-control w-25 ms-4" [(ngModel)]="tax" (input)="calculateTotal()"> %
+        </div>
+  
+        <div *ngIf="showDiscount" class="mb-2 d-flex justify-content-between align-items-center">
+          <span class="fw-bold">Discount:</span>
+          <input type="number" class="form-control w-25" [(ngModel)]="discount" (input)="calculateTotal()">
+          <span class="text-danger ms-2" role="button" (click)="toggleDiscount(false)">×</span>
+        </div>
+        <div *ngIf="!showDiscount">
+          <span class="text-primary fw-bold" role="button" (click)="toggleDiscount(true)">+ Discount</span>
+        </div>
+  
+        <div *ngIf="showShipping" class="mb-2 d-flex justify-content-between align-items-center">
+          <span class="fw-bold">Shipping:</span>
+          <input type="number" class="form-control w-25" [(ngModel)]="shipping" (input)="calculateTotal()">
+          <span class="text-danger ms-2" role="button" (click)="toggleShipping(false)">×</span>
+        </div>
+        <div *ngIf="!showShipping">
+          <span class="text-primary fw-bold" role="button" (click)="toggleShipping(true)">+ Shipping</span>
+        </div>
+  
+        <div class="mb-2 d-flex justify-content-between">
+          <span class="fw-bold">Total:</span>
+          <span>{{ total | currency }}</span>
+        </div>
+  
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+          <span class="fw-bold">Amount Paid:</span>
+          <input type="number" class="form-control w-50" [(ngModel)]="amountPaid" (input)="calculateTotal()">
+        </div>
+  
+        <div class="d-flex justify-content-between">
+          <span class="fw-bold">Balance Due:</span>
+          <span>{{ balanceDue | currency }}</span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="text-end mt-4">
+      <button class="btn createBtn" (click)="createInvoice()">Create Invoice</button>
+    </div>
+  </div>

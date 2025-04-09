@@ -1,0 +1,15 @@
+<div class="product-card">
+    <div class="product-image">
+      <img *ngIf="product?.image" [src]="product.image" alt="{{ product?.name }}" />
+    </div>
+    <div class="product-details">
+      <h3>{{ product?.category }}</h3>
+      <p>{{ product?.description | limitWords }}</p>
+      <span class="product-price">{{ product?.price | currency }}</span>
+    </div>
+    <div class="product-actions">
+      <button class="btn-update" (click)="onUpdate()">✏️ Update</button>
+      <button class="btn-delete" (click)="onDelete()">❌ Delete</button>
+    </div>
+  </div>
+  

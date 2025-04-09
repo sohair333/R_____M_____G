@@ -1,0 +1,28 @@
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: #1a202c;
+  padding-top: 3.6rem;
+}
+
+.mode-container {
+  position: relative;
+
+  .back-arrow {
+    position: absolute;
+    top: 26px;
+    left: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #0056b3;
+    }
+  }
+}

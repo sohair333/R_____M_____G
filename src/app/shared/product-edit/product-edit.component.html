@@ -1,0 +1,58 @@
+<div>
+    <form [formGroup]="form" (ngSubmit)="onSave()">
+        <div class="product-update-container">
+            <div class="product-image">
+                <img *ngIf="form.value.image" [src]="form.value.image" alt="Product Image" />
+            </div>
+
+            <div class="product-details">
+                <h2>Edit Product</h2>
+
+                <div class="form-group">
+                    <label for="productName" class="form-label">Product Name</label>
+                    <input id="productName" type="text" formControlName="name" placeholder="Enter product name"
+                        [ngClass]="{ 'is-invalid': form.controls['name'].invalid && form.controls['name'].touched }" />
+                    <div *ngIf="form.controls['name'].invalid && form.controls['name'].touched" class="error-message">
+                        Product name is required.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription" class="form-label">Description</label>
+                    <textarea id="productDescription" formControlName="description"
+                        placeholder="Enter product description"
+                        [ngClass]="{ 'is-invalid': form.controls['description'].invalid && form.controls['description'].touched }"></textarea>
+                    <div *ngIf="form.controls['description'].invalid && form.controls['description'].touched"
+                        class="error-message">
+                        Product description is required.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productPrice" class="form-label">Price</label>
+                    <input id="productPrice" type="number" formControlName="price" placeholder="Enter product price"
+                        [ngClass]="{ 'is-invalid': form.controls['price'].invalid && form.controls['price'].touched }" />
+                    <div *ngIf="form.controls['price'].invalid && form.controls['price'].touched" class="error-message">
+                        Product price is required.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productImage" class="form-label">Image URL</label>
+                    <input id="productImage" type="text" formControlName="image" placeholder="Enter image URL"
+                        [ngClass]="{ 'is-invalid': form.controls['image'].invalid && form.controls['image'].touched }" />
+                    <div *ngIf="form.controls['image'].invalid && form.controls['image'].touched" class="error-message">
+                        Image URL is required.
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button class="save-btn" type="submit" [disabled]="form.invalid">💾 Save</button>
+                    <button class="cancel-btn" type="button" (click)="onCancel()">❌ Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>

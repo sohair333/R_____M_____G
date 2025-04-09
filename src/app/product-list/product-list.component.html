@@ -1,0 +1,25 @@
+<div >
+  <div *ngIf="editMode" >
+    <app-product-edit
+      [product]="selectedProduct"
+      (save)="saveUpdatedProduct($event)"
+      (cancel)="cancelEdit()"
+    ></app-product-edit>
+  </div>
+  <div class="mode-container">
+    <div class="back-arrow d-block" (click)="goHome()">
+      ← Back
+    </div>
+  </div>
+ 
+  <div class="product-list " *ngIf="!editMode">
+    <div class="product" *ngFor="let product of products">
+      <app-product-card
+        [product]="product"
+        (deleteProduct)="deleteProduct($event)"
+        (updateProduct)="updateProduct($event)"
+      ></app-product-card>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>

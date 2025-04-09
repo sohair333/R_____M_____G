@@ -1,0 +1,24 @@
+<div class="login-container">
+    <div class="login-card">
+      <h2>Welcome Back 👋</h2>
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <input
+          type="text"
+          placeholder="Username"
+          name="username"
+          [(ngModel)]="username"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+        <button type="submit" [disabled]="!loginForm.valid">Login</button>
+      </form>
+      <p class="error" *ngIf="loginFailed">Invalid credentials</p>
+    </div>
+  </div>
+  

@@ -1,0 +1,54 @@
+<div class="invoice-container">
+    <div class="mode-container">
+        <div class="back-arrow d-block" (click)="goHome()">
+          ← Back 
+        </div>
+      </div>
+    <div class="header">
+        <span class="ms-5 ps-3 fw-bold ">My Invoices</span>
+           
+      <button class="btn-new-invoice" (click)="createNewInvoice()">
+        New Invoice <span>&#x25BC;</span>
+      </button>
+    </div>
+  
+    <div class="table-responsive">
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Invoice #</th>
+            <th>Amount Paid</th>
+            <th>Terms</th>
+            <th>Discount</th>
+            <th>Date</th>
+            <th>Due Date</th>
+            <th>Bill To</th>
+            <th>Shipping</th>
+            <th>Description</th>
+            <th>Rate</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invoice of invoices">
+            <td>{{ invoice.customer }}</td>
+            <td>{{ invoice.invoiceNumber }}</td>
+            <td>{{ invoice.amountPaid }}</td>
+            <td>{{ invoice.terms }}</td>
+            <td>{{ invoice.discount }}</td>
+            <td>{{ invoice.date }}</td>
+            <td>{{ invoice.dueDate }}</td>
+            <td>{{ invoice.billTo }}</td>
+            <td>{{ invoice.shipping }}</td>
+            <td>{{ invoice.items[0].description }}</td>
+            <td>{{ invoice.items[0].rate }}</td>
+            <td>{{ invoice.items[0].quantity }}</td>
+            <td>{{ invoice.total | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
